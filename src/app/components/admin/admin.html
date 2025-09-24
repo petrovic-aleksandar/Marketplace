@@ -1,5 +1,97 @@
-<p>Admin page</p>
-<span>{{username}}{{password}}</span>
-<input type="text" [(ngModel)] = "username" />
-<input type="text" [(ngModel)] = "password" />
-<button class="btn btn-primary">Submit</button>
+<p>Administration</p>
+<div class="card">
+        <div class="card-header">
+            New user
+        </div>
+        <div class="card-body">
+            <form [formGroup]="userForm">
+                <div class="form-group">
+                    <label for="usernameId">Username</label>
+                    <input id="usernameId" type="text" formControlName="username" >
+                    <div class="text-danger">
+                        @if(userForm.controls['username'].errors?.['required']) {
+                            Username is required
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordId">Password</label>
+                    <input id="passwordId" type="text" formControlName="password" >
+                    <div class="text-danger">
+                        @if(userForm.controls['password'].errors?.['required']) {
+                            Password is required
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nameId">Name</label>
+                    <input id="nameId" type="text" formControlName="name" >
+                    <div class="text-danger">
+                        @if(userForm.controls['name'].errors?.['required']) {
+                            Name is required
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="emailId">Email</label>
+                    <input id="emailId" type="text" formControlName="email" >
+                    <div class="text-danger">
+                        @if(userForm.controls['email'].errors?.['required']) {
+                            Email is required
+                        }
+                        <div class="text-danger">
+                        @if(userForm.controls['email'].errors?.['email']) {
+                            Email is not correct format
+                        }
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phoneId">Phone</label>
+                    <input id="phoneId" type="text" formControlName="phone" >
+                    <div class="text-danger">
+                        @if(userForm.controls['phone'].errors?.['required']) {
+                            Phone is required
+                        }
+                    </div>
+                </div>
+                <button class="btn btn-primary" (click)="resetUser()">Reset</button>
+                @if( userForm.value.id == 0) {
+                    <button class="btn btn-primary" [disabled]="userForm.invalid" (click)="saveNewUser()">Save</button>
+                } @else {
+                    <button class="btn btn-primary" [disabled]="userForm.invalid" (click)="updateUser()">Update</button>
+                }
+            </form>
+        </div>
+    </div>
+<table>
+    <thead>
+        <th>Id</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Balance</th>
+        <th>Active</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        @for (user of userList; track $index) {
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.password}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phone}}</td>
+            <td>{{user.balance}}</td>
+            <td>{{user.active}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="editUser(user)">Edit</button>
+                <button class="btn btn-danger" (click)="deleteUser(user)">Delete</button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
