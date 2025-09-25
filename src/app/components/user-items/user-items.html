@@ -3,7 +3,11 @@
 <div class="col-md-4">
     <div class="card">
         <div class="card-header">
-            New user
+            @if( itemForm.value.id == 0) {
+                <span>New item</span>
+            } @else {
+                <span>Update item</span> item
+            }
         </div>
         <div class="card-body">
             <form [formGroup]="itemForm">
@@ -26,7 +30,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="priceId">Description</label>
+                    <label for="priceId">Price</label>
                     <input id="priceId" class="form-control" type="number" formControlName="price">
                     <div class="text-danger">
                         @if(itemForm.controls['price'].errors?.['required']) {
@@ -43,4 +47,46 @@
             </form>
         </div>
     </div>
-</div>  
+</div>
+
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">
+            My Items
+        </div>
+        <div class="card-body">
+            @if(itemsByUserResource.isLoading()) {
+                <span>Loading items..</span>
+            }
+            @if(itemsByUserResource.hasValue()) {
+                <table class="table table-bordered">
+                <thead>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Created Date</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    @for (item of itemsByUserResource.value(); track $index) {
+                    <tr>
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.createtime | date:"shortDate"}}</td>
+                        <td>{{item.isActive ? "yes" : "no"}}</td>
+                        <td>
+                            <button class="btn btn-primary" (click)="editItem(item)">Edit</button>
+                            <button class="btn btn-danger" (click)="deleteItem(item)">Delete</button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            }
+        </div>
+    </div>
+</div>

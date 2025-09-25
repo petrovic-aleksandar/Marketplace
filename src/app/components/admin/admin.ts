@@ -30,15 +30,6 @@ export class Admin implements OnInit {
     this.loadUsers()
   }
 
-  resetUser() {
-    this.userForm.controls['id'].setValue(0)
-    this.userForm.controls['username'].setValue("")
-    this.userForm.controls['password'].setValue("")
-    this.userForm.controls['name'].setValue("")
-    this.userForm.controls['email'].setValue("")
-    this.userForm.controls['phone'].setValue("")
-  }
-
   loadUsers() {
     this.userService.getUsers().subscribe((result:any)=>{
       this.userList = result
@@ -66,6 +57,15 @@ export class Admin implements OnInit {
     this.userForm.controls['name'].setValue(u.name)
     this.userForm.controls['email'].setValue(u.email)
     this.userForm.controls['phone'].setValue(u.phone)
+  }
+
+  resetUser() {
+    this.userForm.controls['id'].setValue(0)
+    this.userForm.controls['username'].setValue("")
+    this.userForm.controls['password'].setValue("")
+    this.userForm.controls['name'].setValue("")
+    this.userForm.controls['email'].setValue("")
+    this.userForm.controls['phone'].setValue("")
   }
 
   saveNewUser() {

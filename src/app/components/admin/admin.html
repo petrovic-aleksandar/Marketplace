@@ -2,7 +2,11 @@
 <div class="col-md-4">
     <div class="card">
         <div class="card-header">
-            New user
+            @if( userForm.value.id == 0) {
+                <span>New user</span>
+            } @else {
+                <span>Edit user</span>
+            }
         </div>
         <div class="card-body">
             <form [formGroup]="userForm">

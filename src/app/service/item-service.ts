@@ -1,4 +1,4 @@
-import { inject, Injectable, resource } from '@angular/core';
+import { inject, Injectable, resource, signal } from '@angular/core';
 import { Item } from '../model/item';
 import { HttpClient } from '@angular/common/http';
 
@@ -11,16 +11,16 @@ export class ItemService {
   
   readonly api:string = "https://localhost:7294/api/Item/";
 
-  getItemsByUser(userId:number) {
-    return resource({
-      loader:() => {
-        return fetch((this.api + "byUserId/" + userId))
-      } 
-    })
-  }
-
   addItem(i:Item) {
     return this.http.post(this.api, i)
+  }
+
+  updateItem(i:Item) {
+    return this.http.put(this.api + i.id, i)
+  }
+
+  deleteItem(i:Item) {
+    return this.http.put(this.api + "Delete/" + i.id, i)
   }
 
 }
