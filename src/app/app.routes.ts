@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { Admin } from './components/admin/admin';
-import { User } from './components/user/user';
+import { UserItems } from './components/user-items/user-items'; 
 
 export const routes: Routes = [
     {
@@ -8,6 +8,6 @@ export const routes: Routes = [
         component: Admin
     },
     {
-        path: 'user',
-        component: User
+        path: 'user-items',
+        component: UserItems
     }];

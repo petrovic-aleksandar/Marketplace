@@ -1,0 +1,13 @@
+import { ItemType } from "./item-type"
+import { User } from "./user"
+
+export interface Item {
+    id: number,
+    name: string,
+    description: string,
+    price: number,
+    type: ItemType,
+    isActive: boolean,
+    createtime: string,
+    seller: User
+}   

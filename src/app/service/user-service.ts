@@ -15,6 +15,10 @@ export class UserService {
     return this.http.get(this.api)
   }
 
+  getUserById(id:number) {
+    return this.http.get(this.api + id)
+  }
+
   addUser(u:User) {
     return this.http.post(this.api, u)
   }

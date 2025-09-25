@@ -2,10 +2,11 @@ import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/c
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../service/user-service';
 import { User } from '../../model/user';
+import { MonetaryPipe } from '../../pipes/monetary-pipe';
 
 @Component({
   selector: 'app-admin',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,MonetaryPipe],
   templateUrl: './admin.html',
   styleUrl: './admin.css'
 })
