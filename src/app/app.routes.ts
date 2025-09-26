@@ -7,6 +7,7 @@ import { Login } from './components/login/login';
 import { Register } from './components/register/register';
 import { Homepage } from './components/homepage/homepage';
 import { ItemsByType } from './components/items-by-type/items-by-type';
+import { authGuard } from './guard/auth-guard';
 
 export const routes: Routes = [
     {
@@ -15,15 +16,18 @@ export const routes: Routes = [
     },
     {
         path: 'admin',
-        component: Admin
+        component: Admin,
+        canActivate: [authGuard]
     },
     {
         path: 'user-items',
-        component: UserItems
+        component: UserItems,
+        canActivate: [authGuard]
     },
     {
         path: 'user-settings',
-        component: UserSettings
+        component: UserSettings,
+        canActivate: [authGuard]
     },
     {
         path: 'item-types',
