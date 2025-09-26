@@ -1,1 +1,65 @@
-<p>register works!</p>
+<div class="col-md-4">
+    <div class="card">
+        <div class="card-header">
+            <span>New user registration</span>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="userForm">
+                <div class="form-group">
+                    <label for="usernameId">Username</label>
+                    <input id="usernameId" class="form-control" type="text" formControlName="username">
+                    <div class="text-danger">
+                        @if(userForm.controls['username'].errors?.['required']) {
+                        Username is required
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordId">Password</label>
+                    <input id="passwordId" class="form-control" type="text" formControlName="password">
+                    <div class="text-danger">
+                        @if(userForm.controls['password'].errors?.['required']) {
+                        Password is required
+                        }
+                        @if(userForm.controls['password'].errors?.['minlength']) {
+                        Password must have at least 6 characters
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nameId">Name</label>
+                    <input id="nameId" class="form-control" type="text" formControlName="name">
+                    <div class="text-danger">
+                        @if(userForm.controls['name'].errors?.['required']) {
+                        Name is required
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="emailId">Email</label>
+                    <input id="emailId" class="form-control" type="text" formControlName="email">
+                    <div class="text-danger">
+                        @if(userForm.controls['email'].errors?.['required']) {
+                        Email is required
+                        }
+                        <div class="text-danger">
+                            @if(userForm.controls['email'].errors?.['email']) {
+                            Email is not correct format
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phoneId">Phone</label>
+                    <input id="phoneId" class="form-control" type="text" formControlName="phone">
+                    <div class="text-danger">
+                        @if(userForm.controls['phone'].errors?.['required']) {
+                        Phone is required
+                        }
+                    </div>
+                </div>
+                <button class="btn btn-primary" [disabled]="userForm.invalid" (click)="saveNewUser()">Register</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../service/user-service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth-service';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -27,12 +27,21 @@ export class Login {
       if (loggedUser.password === this.loginForm.value.password) {
         localStorage.setItem("loggedUser", loggedUser.username)
         localStorage.setItem("loggedUserId", loggedUser.id)
+        localStorage.setItem("loggedUserRole", this.mapUserRole(loggedUser.role))
         this.authService.readLoggedUserFromStorage()
         this.router.navigateByUrl("/homepage")
       } else {
         alert("Wrong password!")
       }
     })
+  }
+
+  mapUserRole(roleNum: number): string {
+    if (roleNum == 0)
+      return "User"
+    if (roleNum == 1)
+      return "Admin"
+    return ""
   }
 
 }

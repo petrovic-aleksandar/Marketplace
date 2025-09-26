@@ -1,38 +1,41 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container" style="width: 80%">
-  <ul class="nav navbar-nav">
-    <li class="nav-item">
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
         <a class="nav-link" routerLink="homepage">Marketplace</a>
       </li>
+      @if (authService.loggedUserRole() === "User" || authService.loggedUserRole() === "Admin") {
       <li class="nav-item">
         <a class="nav-link" routerLink="user-items">My Items</a>
       </li>
+      }
+      @if (authService.loggedUserRole() === "Admin") {
       <li class="nav-item">
         <a class="nav-link" routerLink="admin">Admin</a>
       </li>
-  </ul>
-  <ul class="nav navbar-nav navbar-right">
-      @if (authService.loggedUser() === "") {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="register">Register</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="login">Login</a>
-        </li>
-      } @else {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="user-settings">{{authService.loggedUser()}}</a>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" (click)="logout()">Logout</button>
-        </li>
       }
     </ul>
-    </div>
+    <ul class="nav navbar-nav navbar-right">
+      @if (authService.loggedUser() === "") {
+      <li class="nav-item">
+        <a class="nav-link" routerLink="register">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="login">Login</a>
+      </li>
+      } @else {
+      <li class="nav-item">
+        <a class="nav-link" routerLink="user-settings">{{authService.loggedUser()}}</a>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" (click)="logout()">Logout</button>
+      </li>
+      }
+    </ul>
+  </div>
 </nav>
 
 <div class="container" style="width: 80%">
   <br />
   <router-outlet />
 </div>
-

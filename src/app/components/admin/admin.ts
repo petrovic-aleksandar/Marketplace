@@ -24,6 +24,7 @@ export class Admin implements OnInit {
     name: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
     phone: new FormControl("", [Validators.required]),
+    role: new FormControl(0)
   })
 
   ngOnInit() {
@@ -46,7 +47,8 @@ export class Admin implements OnInit {
       email: this.userForm.value.email,
       phone: this.userForm.value.phone,
       balance: 0,
-      active: true
+      active: true,
+      role: this.userForm.value.role
     }
   }
 
@@ -57,6 +59,7 @@ export class Admin implements OnInit {
     this.userForm.controls['name'].setValue(u.name)
     this.userForm.controls['email'].setValue(u.email)
     this.userForm.controls['phone'].setValue(u.phone)
+    this.userForm.controls['role'].setValue(u.role)
   }
 
   resetUser() {
@@ -66,6 +69,7 @@ export class Admin implements OnInit {
     this.userForm.controls['name'].setValue("")
     this.userForm.controls['email'].setValue("")
     this.userForm.controls['phone'].setValue("")
+    this.userForm.controls['role'].setValue(0)
   }
 
   saveNewUser() {

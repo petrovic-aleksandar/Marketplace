@@ -6,5 +6,6 @@ export interface User {
     email: string,
     phone: string,
     balance: number,
-    active: boolean
+    active: boolean,
+    role: number
 }
