@@ -6,6 +6,7 @@ import { ItemTypes } from './components/item-types/item-types';
 import { Login } from './components/login/login';
 import { Register } from './components/register/register';
 import { Homepage } from './components/homepage/homepage';
+import { ItemsByType } from './components/items-by-type/items-by-type';
 
 export const routes: Routes = [
     {
@@ -27,6 +28,10 @@ export const routes: Routes = [
     {
         path: 'item-types',
         component: ItemTypes
+    },
+    {
+        path: 'items-by-type',
+        component: ItemsByType
     },
     {
         path: 'login',

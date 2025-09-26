@@ -1,7 +1,6 @@
 import { Component, computed, inject, OnInit, resource, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemService } from '../../service/item-service';
-import { User } from '../../model/user';
 import { Item } from '../../model/item';
 import { ItemType } from '../../model/item-type';
 import { DatePipe } from '@angular/common';
@@ -45,7 +44,8 @@ export class UserItems implements OnInit {
       type: this.mockType,
       isActive: true,
       createtime: "1995-04-07T00:00:00",
-      seller: this.authService.mockUserWithId()
+      seller: this.authService.mockUserWithId(),
+      images: []
     }  
   }
 
@@ -53,7 +53,7 @@ export class UserItems implements OnInit {
     params: () => ({id: this.authService.loggedUserId}),
     loader: async ({params}) => {
       const result = await fetch(('https://localhost:7294/api/Item/byUserId/' + params.id));
-      return await result.json();
+      return result.json();
     }
   })
 

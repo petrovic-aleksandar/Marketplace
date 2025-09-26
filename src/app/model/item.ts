@@ -1,3 +1,4 @@
+import { Image } from "./image"
 import { ItemType } from "./item-type"
 import { User } from "./user"
 
@@ -10,4 +11,5 @@ export interface Item {
     isActive: boolean,
     createtime: string,
     seller: User
+    images: Image[]
 }   

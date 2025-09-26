@@ -1,92 +1,92 @@
-<p>My Items</p>
-
-<div class="col-md-4">
-    <div class="card">
-        <div class="card-header">
-            @if( itemForm.value.id == 0) {
-                <span>New item</span>
-            } @else {
-                <span>Update item</span> item
-            }
-        </div>
-        <div class="card-body">
-            <form [formGroup]="itemForm">
-                <div class="form-group">
-                    <label for="nameId">Name</label>
-                    <input id="nameId" class="form-control" type="text" formControlName="name">
-                    <div class="text-danger">
-                        @if(itemForm.controls['name'].errors?.['required']) {
-                        Name is required
-                        }
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="descriptionId">Description</label>
-                    <input id="descriptionId" class="form-control" type="text" formControlName="description">
-                    <div class="text-danger">
-                        @if(itemForm.controls['description'].errors?.['required']) {
-                        Description is required
-                        }
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="priceId">Price</label>
-                    <input id="priceId" class="form-control" type="number" formControlName="price">
-                    <div class="text-danger">
-                        @if(itemForm.controls['price'].errors?.['required']) {
-                        Price is required
-                        }
-                    </div>
-                </div>
-                <button class="btn btn-primary" (click)="resetItem()">Reset</button>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
                 @if( itemForm.value.id == 0) {
-                <button class="btn btn-primary" [disabled]="itemForm.invalid" (click)="saveNewItem()">Save</button>
+                <span>New item</span>
                 } @else {
-                <button class="btn btn-primary" [disabled]="itemForm.invalid" (click)="updateItem()">Update</button>
+                <span>Update item</span> item
                 }
-            </form>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="itemForm">
+                    <div class="form-group">
+                        <label for="nameId">Name</label>
+                        <input id="nameId" class="form-control" type="text" formControlName="name">
+                        <div class="text-danger">
+                            @if(itemForm.controls['name'].errors?.['required']) {
+                            Name is required
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionId">Description</label>
+                        <input id="descriptionId" class="form-control" type="text" formControlName="description">
+                        <div class="text-danger">
+                            @if(itemForm.controls['description'].errors?.['required']) {
+                            Description is required
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="priceId">Price</label>
+                        <input id="priceId" class="form-control" type="number" formControlName="price">
+                        <div class="text-danger">
+                            @if(itemForm.controls['price'].errors?.['required']) {
+                            Price is required
+                            }
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" (click)="resetItem()">Reset</button>
+                    @if( itemForm.value.id == 0) {
+                    <button class="btn btn-primary" [disabled]="itemForm.invalid" (click)="saveNewItem()">Save</button>
+                    } @else {
+                    <button class="btn btn-primary" [disabled]="itemForm.invalid" (click)="updateItem()">Update</button>
+                    }
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="col-md-8">
-    <div class="card">
-        <div class="card-header">
-            My Items
-        </div>
-        <div class="card-body">
-            @if(itemsByUserResource.isLoading()) {
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                My Items
+            </div>
+            <div class="card-body">
+                @if(itemsByUserResource.isLoading()) {
                 <span>Loading items..</span>
-            }
-            @if(itemsByUserResource.hasValue()) {
+                }
+                @if(itemsByUserResource.hasValue()) {
                 <table class="table table-bordered">
-                <thead>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Created Date</th>
-                    <th>Active</th>
-                    <th>Actions</th>
-                </thead>
-                <tbody>
-                    @for (item of itemsByUserResource.value(); track $index) {
-                    <tr>
-                        <td>{{item.id}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.description}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.createtime | date:"shortDate"}}</td>
-                        <td>{{item.isActive ? "yes" : "no"}}</td>
-                        <td>
-                            <button class="btn btn-primary" (click)="editItem(item)">Edit</button>
-                            <button class="btn btn-danger" (click)="deleteItem(item)">Delete</button>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-            }
+                    <thead>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Created Date</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        @for (item of itemsByUserResource.value(); track $index) {
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.createtime | date:"shortDate"}}</td>
+                            <td>{{item.isActive ? "yes" : "no"}}</td>
+                            <td>
+                                <button class="btn btn-primary" (click)="editItem(item)">Edit</button>
+                                <button class="btn btn-danger" (click)="deleteItem(item)">Delete</button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+            </div>
         </div>
     </div>
 </div>
