@@ -12,7 +12,7 @@
       </li>
   </ul>
   <ul class="nav navbar-nav navbar-right">
-      @if (masterService.loggedUser() === "") {
+      @if (authService.loggedUser() === "") {
         <li class="nav-item">
           <a class="nav-link" routerLink="register">Register</a>
         </li>
@@ -21,7 +21,7 @@
         </li>
       } @else {
         <li class="nav-item">
-          <a class="nav-link" routerLink="user-settings">{{masterService.loggedUser()}}</a>
+          <a class="nav-link" routerLink="user-settings">{{authService.loggedUser()}}</a>
         </li>
         <li class="nav-item">
           <button class="nav-link" (click)="logout()">Logout</button>

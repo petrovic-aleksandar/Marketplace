@@ -5,6 +5,7 @@ import { User } from '../../model/user';
 import { Item } from '../../model/item';
 import { ItemType } from '../../model/item-type';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../../service/auth-service';
 
 @Component({
   selector: 'app-user-items',
@@ -15,17 +16,7 @@ import { DatePipe } from '@angular/common';
 export class UserItems implements OnInit {
 
   itemService = inject(ItemService)
-
-  readonly mockUser: User = {
-    id: 1,
-    username: "",
-    password: "",
-    name: "",
-    email: "",
-    phone: "",
-    balance: 0,
-    active: true
-  }
+  authService = inject(AuthService)
 
   readonly mockType: ItemType = {
     id: 1,
@@ -54,14 +45,12 @@ export class UserItems implements OnInit {
       type: this.mockType,
       isActive: true,
       createtime: "1995-04-07T00:00:00",
-      seller: this.mockUser
+      seller: this.authService.mockUserWithId()
     }  
   }
 
-  userId = signal<number>(1);
-
   itemsByUserResource = resource({
-    params: () => ({id: this.userId()}),
+    params: () => ({id: this.authService.loggedUserId}),
     loader: async ({params}) => {
       const result = await fetch(('https://localhost:7294/api/Item/byUserId/' + params.id));
       return await result.json();
@@ -89,7 +78,7 @@ export class UserItems implements OnInit {
   saveNewItem() {
     this.itemService.addItem(this.formToItem()).subscribe({
       next:()=>{
-        alert("user created")
+        alert("item created")
         this.itemsByUserResource.reload()
       },
       error:(error)=>{

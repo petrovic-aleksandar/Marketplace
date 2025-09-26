@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../service/user-service';
 import { Router } from '@angular/router';
-import { MasterService } from '../../service/master-service';
+import { AuthService } from '../../service/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ import { MasterService } from '../../service/master-service';
 export class Login {
 
   userService = inject(UserService)
-  masterService = inject(MasterService)
+  authService = inject(AuthService)
   router = inject(Router)
 
   loginForm: FormGroup = new FormGroup({
@@ -26,7 +26,8 @@ export class Login {
       const loggedUser: any = result;
       if (loggedUser.password === this.loginForm.value.password) {
         localStorage.setItem("loggedUser", loggedUser.username)
-        this.masterService.readLoggedUserFromStorage()
+        localStorage.setItem("loggedUserId", loggedUser.id)
+        this.authService.readLoggedUserFromStorage()
         this.router.navigateByUrl("/homepage")
       } else {
         alert("Wrong password!")

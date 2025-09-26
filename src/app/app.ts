@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { MasterService } from './service/master-service';
+import { AuthService } from './service/auth-service';
 
 @Component({
   selector: 'app-root',
@@ -11,15 +11,15 @@ import { MasterService } from './service/master-service';
 export class App implements OnInit {
 
   router = inject(Router)
-  masterService = inject(MasterService)
+  authService = inject(AuthService)
 
   ngOnInit(): void {
-    this.masterService.readLoggedUserFromStorage()
+    this.authService.readLoggedUserFromStorage()
   }
 
   logout() {
-    localStorage.removeItem("loggedUser")
-    this.masterService.readLoggedUserFromStorage()
+    localStorage.clear()
+    this.authService.readLoggedUserFromStorage()
     this.router.navigateByUrl("/login")
   }
 
