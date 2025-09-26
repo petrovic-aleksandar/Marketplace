@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +7,25 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  protected readonly title = signal('Marketplace');
+export class App implements OnInit {
+
+  router = inject(Router)
+
+  loggedUser: string = ""
+
+  ngOnInit(): void {
+    this.readLoggedUser()
+  }
+
+  readLoggedUser() {
+    const loggedUsername = localStorage.getItem("loggedUser")
+    if (loggedUsername != null)
+      this.loggedUser = loggedUsername
+  }
+
+  logout() {
+    localStorage.removeItem("loggedUser")
+    this.readLoggedUser()
+    this.router.navigateByUrl("/login")
+  }
 }

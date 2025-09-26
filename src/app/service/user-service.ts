@@ -19,6 +19,10 @@ export class UserService {
     return this.http.get(this.api + id)
   }
 
+  getUserByUsername(username:string) {
+    return this.http.get(this.api + "byUsername/" + username)
+  }
+
   addUser(u:User) {
     return this.http.post(this.api, u)
   }

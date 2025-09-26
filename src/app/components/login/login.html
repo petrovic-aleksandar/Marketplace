@@ -1,0 +1,31 @@
+<div class="col-md-4">
+    <div class="card">
+        <div class="card-header">
+            <span>Login</span>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="loginForm">
+                <div class="form-group">
+                    <label for="usernameId">Username</label>
+                    <input id="usernameId" class="form-control" type="text" formControlName="username">
+                    <div class="text-danger">
+                        @if(loginForm.controls['username'].errors?.['required']) {
+                        Username is required
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordId">Password</label>
+                    <input id="passwordId" class="form-control" type="text" formControlName="password">
+                    <div class="text-danger">
+                        @if(loginForm.controls['password'].errors?.['required']) {
+                        Username is required
+                        }
+                    </div>
+                </div>
+                <button class="btn btn-primary" (click)="login()">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+    
