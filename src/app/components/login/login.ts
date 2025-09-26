@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { UserService } from '../../service/user-service';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth-service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -22,17 +23,20 @@ export class Login {
   })
 
   login() {
-    this.userService.getUserByUsername(this.loginForm.value.username).subscribe((result)=>{
+    this.userService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(
+      (result) => {
       const loggedUser: any = result;
-      if (loggedUser.password === this.loginForm.value.password) {
-        localStorage.setItem("loggedUser", loggedUser.username)
-        localStorage.setItem("loggedUserId", loggedUser.id)
-        localStorage.setItem("loggedUserRole", this.mapUserRole(loggedUser.role))
-        this.authService.readLoggedUserFromStorage()
-        this.router.navigateByUrl("/homepage")
-      } else {
-        alert("Wrong password!")
-      }
+      localStorage.setItem("loggedUser", loggedUser.username)
+      localStorage.setItem("loggedUserId", loggedUser.id)
+      localStorage.setItem("loggedUserRole", this.mapUserRole(loggedUser.role))
+      this.authService.readLoggedUserFromStorage()
+      this.router.navigateByUrl("/homepage")
+    },
+    (error: HttpErrorResponse) => {
+      if (error.status==401)
+        alert("Wrong password")
+      if (error.status==400)
+        alert("Wrong credentials")
     })
   }
 
