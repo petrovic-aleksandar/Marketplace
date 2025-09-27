@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../service/user-service';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LoginUser } from '../../model/login-user';
+import { Component, inject } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-login',
@@ -13,24 +14,36 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class Login {
 
-  userService = inject(UserService)
   authService = inject(AuthService)
   router = inject(Router)
+
+  private readonly jwtHelper = new JwtHelperService()
 
   loginForm: FormGroup = new FormGroup({
     username: new FormControl("", [Validators.required]),
     password: new FormControl("", [Validators.required])
   })
 
+  loginFormToUser(): LoginUser {
+    return {
+      username: this.loginForm.value.username,
+      password: this.loginForm.value.password
+    }
+  }
+
   login() {
-    this.userService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(
+    console.log("login..")
+    this.authService.login(this.loginFormToUser()).subscribe(
       (result) => {
-      const loggedUser: any = result;
-      localStorage.setItem("loggedUser", loggedUser.username)
-      localStorage.setItem("loggedUserId", loggedUser.id)
-      localStorage.setItem("loggedUserRole", this.mapUserRole(loggedUser.role))
-      this.authService.readLoggedUserFromStorage()
-      this.router.navigateByUrl("/homepage")
+        const x:any = result
+        const token: any = x.value;
+        const decoded = this.jwtHelper.decodeToken(token)
+        localStorage.setItem("loggedUser", decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'])
+        localStorage.setItem("loggedUserId", decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'])
+        localStorage.setItem("loggedUserRole", decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+        localStorage.setItem("loggedUserToken", token)
+        this.authService.readLoggedUserFromStorage()
+        this.router.navigateByUrl("/homepage")
     },
     (error: HttpErrorResponse) => {
       if (error.status==401)
@@ -39,13 +52,4 @@ export class Login {
         alert("Wrong credentials")
     })
   }
-
-  mapUserRole(roleNum: number): string {
-    if (roleNum == 0)
-      return "User"
-    if (roleNum == 1)
-      return "Admin"
-    return ""
-  }
-
 }

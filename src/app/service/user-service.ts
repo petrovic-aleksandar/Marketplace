@@ -15,14 +15,6 @@ export class UserService {
     return this.http.get(this.api)
   }
 
-  getUserById(id:number) {
-    return this.http.get(this.api + id)
-  }
-
-  login(username:string,password:string) {
-    return this.http.post("https://localhost:7294/api/Auth/", {username:username, password:password})
-  }
-
   addUser(u:User) {
     return this.http.post(this.api, u)
   }

@@ -1,13 +1,29 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, Signal, signal } from '@angular/core';
+import { User } from '../model/user';
+import { RegUser } from '../model/reg-user';
+import { LoginUser } from '../model/login-user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  private readonly api:string = "https://localhost:7294/api/Auth/"
+
+  http=inject(HttpClient)
   
   loggedUser = signal<string>("")
   loggedUserId: number = 0
   loggedUserRole = signal<string>("")
+
+  login(lu:LoginUser) {
+    return this.http.post(this.api + "login", lu)
+  }
+
+  register(ru:RegUser) {
+    return this.http.post(this.api + "register", ru)
+  }
 
   readLoggedUserFromStorage() {
     const loggedUser = localStorage.getItem("loggedUser")
