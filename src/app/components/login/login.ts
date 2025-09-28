@@ -32,16 +32,16 @@ export class Login {
   }
 
   login() {
-    console.log("login..")
     this.authService.login(this.loginFormToUser()).subscribe(
       (result) => {
         const x:any = result
-        const token: any = x.value;
+        const token: any = x.accessToken;
         const decoded = this.jwtHelper.decodeToken(token)
         localStorage.setItem("loggedUser", decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'])
         localStorage.setItem("loggedUserId", decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'])
         localStorage.setItem("loggedUserRole", decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
         localStorage.setItem("loggedUserToken", token)
+        localStorage.setItem("loggedUserRefreshToken", x.refreshToken)
         this.authService.readLoggedUserFromStorage()
         this.router.navigateByUrl("/homepage")
     },
