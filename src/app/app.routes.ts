@@ -8,6 +8,7 @@ import { Register } from './components/register/register';
 import { Homepage } from './components/homepage/homepage';
 import { ItemsByType } from './components/items-by-type/items-by-type';
 import { authGuard } from './guard/auth-guard';
+import { adminGuard } from './guard/admin-guard';
 
 export const routes: Routes = [
     {
@@ -17,7 +18,7 @@ export const routes: Routes = [
     {
         path: 'admin',
         component: Admin,
-        canActivate: [authGuard]
+        canActivate: [authGuard,adminGuard]
     },
     {
         path: 'user-items',
