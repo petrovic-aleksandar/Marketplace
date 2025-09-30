@@ -1,6 +1,7 @@
 import { inject, Injectable, resource, signal } from '@angular/core';
 import { Item } from '../model/item';
 import { HttpClient } from '@angular/common/http';
+import { GlobalService } from './global-service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,9 @@ import { HttpClient } from '@angular/common/http';
 export class ItemService {
 
   http = inject(HttpClient)
+  globalService = inject(GlobalService)
   
-  readonly api:string = "https://localhost:7294/api/Item/";
+  readonly api:string = this.globalService.getApi("Item")
 
   addItem(i:Item) {
     return this.http.post(this.api, i)

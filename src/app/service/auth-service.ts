@@ -3,15 +3,17 @@ import { inject, Injectable, Signal, signal } from '@angular/core';
 import { User } from '../model/user';
 import { RegUser } from '../model/reg-user';
 import { LoginUser } from '../model/login-user';
+import { GlobalService } from './global-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly api:string = "https://localhost:7294/api/Auth/"
-
   http=inject(HttpClient)
+  globalService = inject(GlobalService)
+
+  private readonly api:string = this.globalService.getApi("Auth")
   
   loggedUser = signal<string>("")
   loggedUserId: number = 0
