@@ -1,4 +1,5 @@
-import { Component, resource } from '@angular/core';
+import { Component, inject, resource } from '@angular/core';
+import { GlobalService } from '../../service/global-service';
 
 @Component({
   selector: 'app-item-types',
@@ -8,11 +9,12 @@ import { Component, resource } from '@angular/core';
 })
 export class ItemTypes {
 
+  globalService = inject(GlobalService)
   imagesLocation: string = "http://localhost:8080/"
 
   itemTypes = resource({
     loader: async () => {
-      const result = await fetch(('https://localhost:7294/api/Item/Types'))
+      const result = await fetch(this.globalService.getApi("Item") + '/Types')
       return result.json();
     }
   })

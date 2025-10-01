@@ -5,6 +5,7 @@ import { Item } from '../../model/item';
 import { ItemType } from '../../model/item-type';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../service/auth-service';
+import { GlobalService } from '../../service/global-service';
 
 @Component({
   selector: 'app-user-items',
@@ -14,6 +15,7 @@ import { AuthService } from '../../service/auth-service';
 })
 export class UserItems implements OnInit {
 
+  globalService = inject(GlobalService)
   itemService = inject(ItemService)
   authService = inject(AuthService)
 
@@ -52,7 +54,7 @@ export class UserItems implements OnInit {
   itemsByUserResource = resource({
     params: () => ({id: this.authService.loggedUserId}),
     loader: async ({params}) => {
-      const result = await fetch(('https://localhost:7294/api/Item/byUserId/' + params.id));
+      const result = await fetch(this.globalService.getApi("Item") + 'byUserId/' + params.id);
       return result.json();
     }
   })
