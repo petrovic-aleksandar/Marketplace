@@ -10,17 +10,16 @@ import { GlobalService } from '../../service/global-service';
 export class ItemTypes {
 
   globalService = inject(GlobalService)
-  imagesLocation: string = "http://localhost:8080/"
 
   itemTypes = resource({
     loader: async () => {
-      const result = await fetch(this.globalService.getApi("Item") + '/Types')
+      const result = await fetch(this.globalService.getApi("Item") + 'Types')
       return result.json();
     }
   })
 
   pathById(path:string) {
-    return this.imagesLocation + path
+    return this.globalService.getImagePath(path)
   } 
 
 }
