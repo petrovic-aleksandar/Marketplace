@@ -24,7 +24,7 @@ export class Admin implements OnInit {
     name: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
     phone: new FormControl("", [Validators.required]),
-    role: new FormControl(0)
+    role: new FormControl("User")
   })
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class Admin implements OnInit {
     this.userForm.controls['name'].setValue("")
     this.userForm.controls['email'].setValue("")
     this.userForm.controls['phone'].setValue("")
-    this.userForm.controls['role'].setValue(0)
+    this.userForm.controls['role'].setValue("User")
   }
 
   saveNewUser() {

@@ -21,7 +21,7 @@ export class Register {
     name: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
     phone: new FormControl("", [Validators.required]),
-    role: new FormControl(0)
+    role: new FormControl("User")
   })
 
   formToUser(): RegUser {
