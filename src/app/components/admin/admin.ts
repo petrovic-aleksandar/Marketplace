@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { UserService } from '../../service/user-service';
 import { User } from '../../model/user';
 import { MonetaryPipe } from '../../pipes/monetary-pipe';
+import { GlobalService } from '../../service/global-service';
 
 @Component({
   selector: 'app-admin',
@@ -13,6 +14,7 @@ import { MonetaryPipe } from '../../pipes/monetary-pipe';
 export class Admin implements OnInit {
 
   userService = inject(UserService)
+  globalService = inject(GlobalService)
   cdr = inject(ChangeDetectorRef)
 
   userList: User[] = []
@@ -73,7 +75,7 @@ export class Admin implements OnInit {
   }
 
   saveNewUser() {
-    this.userService.addUser(this.formToUser()).subscribe({
+    this.userService.addUser(this.globalService.toUserReq(this.formToUser())).subscribe({
       next:()=>{
         alert("user created")
         this.loadUsers()

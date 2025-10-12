@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,16 @@ export class GlobalService {
   getImagePath(path:string) {
     return "http://localhost:80/"+ path
   }
-   
+
+  toUserReq(u:User) {
+    return {
+      username: u.username,
+      password: u.password,
+      name: u.name,
+      email: u.email,
+      phone: u.phone,
+      role: u.role
+    }
+  }
   
 }
