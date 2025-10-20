@@ -64,6 +64,16 @@
                             }
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="roleId">Role</label>
+                        <ng-select id="roleId" [items]="userRoles" bindLabel="userRoles" bindValue="userRoles"
+                            formControlName="role"> </ng-select>
+                        <div class="text-danger">
+                            @if(userForm.controls['role'].errors?.['required']) {
+                            Role is required
+                            }
+                        </div>
+                    </div>
                     <button class="btn btn-secondary" (click)="resetUser()">Reset</button>
                     @if( userForm.value.id == 0) {
                     <button class="btn btn-primary" [disabled]="userForm.invalid" (click)="saveNewUser()">Save</button>
@@ -83,6 +93,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <th>Id</th>
+                        <th>Role</th>
                         <th>Username</th>
                         <th>Name</th>
                         <th>Email</th>
@@ -95,6 +106,7 @@
                         @for (user of userList; track $index) {
                         <tr>
                             <td>{{user.id}}</td>
+                            <td>{{user.role}}</td>
                             <td>{{user.username}}</td>
                             <td>{{user.name}}</td>
                             <td>{{user.email}}</td>

@@ -5,10 +5,11 @@ import { User } from '../../model/user';
 import { MonetaryPipe } from '../../pipes/monetary-pipe';
 import { GlobalService } from '../../service/global-service';
 import { UserReq } from '../../model/request/user-req';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-admin',
-  imports: [ReactiveFormsModule,MonetaryPipe],
+  imports: [ReactiveFormsModule,MonetaryPipe,NgSelectComponent],
   templateUrl: './admin.html',
   styleUrl: './admin.css'
 })
@@ -19,6 +20,7 @@ export class Admin implements OnInit {
   cdr = inject(ChangeDetectorRef)
 
   userList: User[] = []
+  userRoles: string[] = []
 
   userForm: FormGroup = new FormGroup({
     id: new FormControl(0),
@@ -27,16 +29,24 @@ export class Admin implements OnInit {
     name: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
     phone: new FormControl("", [Validators.required]),
-    role: new FormControl("User")
+    role: new FormControl(null, [Validators.required])
   })
 
   ngOnInit() {
     this.loadUsers()
+    this.loadRoles()
   }
 
   loadUsers() {
     this.userService.getAll().subscribe((result:any)=>{
       this.userList = result
+      this.cdr.markForCheck()
+    })
+  }
+
+  loadRoles() {
+    this.userService.getRoles().subscribe((result:any)=>{
+      this.userRoles = result
       this.cdr.markForCheck()
     })
   }
@@ -65,7 +75,6 @@ export class Admin implements OnInit {
   resetUser() {
     this.userForm.reset()
     this.userForm.controls['id'].setValue(0)
-    this.userForm.controls['role'].setValue("User")
   }
 
   saveNewUser() {

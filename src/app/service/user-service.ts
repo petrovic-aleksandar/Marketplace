@@ -18,6 +18,10 @@ export class UserService {
     return this.http.get(this.api)
   }
 
+  getRoles() {
+    return this.http.get<string[]>(this.api + "roles")
+  }
+
   add(u:UserReq) {
     return this.http.post(this.api, u)
   }
