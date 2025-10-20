@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { GlobalService } from './global-service';
-import { UserReq } from '../model/userReq';
+import { UserReq } from '../model/request/user-req';
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +14,24 @@ export class UserService {
 
   readonly api:string = this.globalService.getApi("User")
 
-  getUsers() {
+  getAll() {
     return this.http.get(this.api)
   }
 
-  addUser(u:UserReq) {
+  add(u:UserReq) {
     return this.http.post(this.api, u)
   }
 
-  updateUser(u:User, id:number) {
+  update(u:UserReq, id:number) {
     return this.http.put(this.api + id, u)
   }
 
-  deleteUser(id:number) {
-    return this.http.put(this.api + "Delete/" + id, null)
+  deactivate(id:number) {
+    return this.http.put(this.api + "deactivate/" + id, null)
+  }
+
+  activate(id:number) {
+    return this.http.put(this.api + "activate/" + id, null)
   }
   
 }

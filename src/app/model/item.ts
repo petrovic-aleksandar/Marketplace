@@ -8,8 +8,8 @@ export interface Item {
     description: string,
     price: number,
     type: ItemType,
-    isActive: boolean,
-    createtime: string,
+    active: boolean,
+    createdAt: string,
     seller: User
     images: Image[]
 }   

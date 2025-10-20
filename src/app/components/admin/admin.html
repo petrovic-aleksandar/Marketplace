@@ -64,7 +64,7 @@
                             }
                         </div>
                     </div>
-                    <button class="btn btn-primary" (click)="resetUser()">Reset</button>
+                    <button class="btn btn-secondary" (click)="resetUser()">Reset</button>
                     @if( userForm.value.id == 0) {
                     <button class="btn btn-primary" [disabled]="userForm.invalid" (click)="saveNewUser()">Save</button>
                     } @else {
@@ -103,7 +103,10 @@
                             <td>{{user.active ? "yes" : "no"}}</td>
                             <td>
                                 <button class="btn btn-primary" (click)="editUser(user)">Edit</button>
-                                <button class="btn btn-danger" (click)="deleteUser(user)">Delete</button>
+                                @if (user.active) {
+                                <button class="btn btn-warning" (click)="deactivateUser(user.id)">Deactivate</button>
+                                } @else {
+                                <button class="btn btn-success" (click)="activateUser(user.id)">Activate</button>}
                             </td>
                         </tr>
                         }

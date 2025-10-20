@@ -2,7 +2,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth-service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { LoginUser } from '../../model/login-user';
+import { LoginUser } from '../../model/request/login-user';
 import { Component, inject } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 

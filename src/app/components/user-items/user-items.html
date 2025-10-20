@@ -37,12 +37,18 @@
                             }
                         </div>
                     </div>
-                    <button class="btn btn-primary" (click)="resetItem()">Reset</button>
+                    <div class="form-group">
+                        <label for="typeIdId">Price</label>
+                        <ng-select id="typeIdId" [items]="itemTypes" bindLabel="name" bindValue="id"
+                            formControlName="typeId"> </ng-select>
+                    </div>
                     @if( itemForm.value.id == 0) {
-                    <button class="btn btn-primary" [disabled]="itemForm.invalid" (click)="saveNewItem()">Save</button>
+                    <button class="btn btn-primary" [disabled]="itemForm.invalid" (click)="add()">Save</button>
                     } @else {
-                    <button class="btn btn-primary" [disabled]="itemForm.invalid" (click)="updateItem()">Update</button>
+                    <button class="btn btn-primary" [disabled]="itemForm.invalid"
+                        (click)="update(itemForm.value.id)">Update</button>
                     }
+                    <button class="btn btn-secondary" (click)="reset()">Reset</button>
                 </form>
             </div>
         </div>
@@ -54,38 +60,40 @@
                 My Items
             </div>
             <div class="card-body">
-                @if(itemsByUserResource.isLoading()) {
-                <span>Loading items..</span>
-                }
-                @if(itemsByUserResource.hasValue()) {
                 <table class="table table-bordered">
                     <thead>
                         <th>Id</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Price</th>
+                        <th>Type</th>
                         <th>Created Date</th>
                         <th>Active</th>
                         <th>Actions</th>
                     </thead>
                     <tbody>
-                        @for (item of itemsByUserResource.value(); track $index) {
+                        @for (item of itemList; track $index) {
                         <tr>
                             <td>{{item.id}}</td>
                             <td>{{item.name}}</td>
                             <td>{{item.description}}</td>
                             <td>{{item.price}}</td>
-                            <td>{{item.createtime | date:"shortDate"}}</td>
-                            <td>{{item.isActive ? "yes" : "no"}}</td>
+                            <td>{{item.type.name}}</td>    
+                            <td>{{item.createdAt | date:"shortDate"}}</td>
+                            <td>{{item.active ? "yes" : "no"}}</td>
                             <td>
-                                <button class="btn btn-primary" (click)="editItem(item)">Edit</button>
-                                <button class="btn btn-danger" (click)="deleteItem(item)">Delete</button>
+                                <button class="btn btn-primary" (click)="edit(item)">Edit</button>
+                                @if(item.active) {
+                                <button class="btn btn-warning" (click)="deactivate(item.id)">Deactivate</button>
+                                } @else {
+                                <button class="btn btn-success" (click)="activate(item.id)">Activate</button>
+                                }
+                                <button class="btn btn-danger" (click)="delete(item.id)">Delete</button>
                             </td>
                         </tr>
                         }
                     </tbody>
                 </table>
-                }
             </div>
         </div>
     </div>

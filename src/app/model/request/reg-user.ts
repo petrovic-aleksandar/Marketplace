@@ -3,6 +3,5 @@ export interface RegUser {
     password: string,
     name: string,
     email: string,
-    phone: string,
-    role: string
+    phone: string
 }

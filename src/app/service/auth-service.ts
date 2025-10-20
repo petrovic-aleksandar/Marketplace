@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, Signal, signal } from '@angular/core';
 import { User } from '../model/user';
-import { RegUser } from '../model/reg-user';
-import { LoginUser } from '../model/login-user';
+import { RegUser } from '../model/request/reg-user';
+import { LoginUser } from '../model/request/login-user';
 import { GlobalService } from './global-service';
 
 @Injectable({
@@ -43,20 +43,6 @@ export class AuthService {
       this.loggedUserRole.set("")
     }
     this.loggedUser.update
-  }
-
-  mockUserWithId() {
-    return {
-      id: this.loggedUserId,
-      username: "",
-      password: "",
-      name: "",
-      email: "",
-      phone: "",
-      balance: 0,
-      active: true,
-      role: -1
-    }
   }
   
 }

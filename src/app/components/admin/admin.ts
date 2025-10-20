@@ -4,6 +4,7 @@ import { UserService } from '../../service/user-service';
 import { User } from '../../model/user';
 import { MonetaryPipe } from '../../pipes/monetary-pipe';
 import { GlobalService } from '../../service/global-service';
+import { UserReq } from '../../model/request/user-req';
 
 @Component({
   selector: 'app-admin',
@@ -34,22 +35,19 @@ export class Admin implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getUsers().subscribe((result:any)=>{
+    this.userService.getAll().subscribe((result:any)=>{
       this.userList = result
       this.cdr.markForCheck()
     })
   }
 
-  formToUser(): User {
+  formToUserReq(): UserReq {
     return {
-      id: 0,
       username: this.userForm.value.username,
       password: this.userForm.value.password,
       name: this.userForm.value.name,
       email: this.userForm.value.email,
       phone: this.userForm.value.phone,
-      balance: 0,
-      active: true,
       role: this.userForm.value.role
     }
   }
@@ -57,7 +55,7 @@ export class Admin implements OnInit {
   editUser(u:User) {
     this.userForm.controls['id'].setValue(u.id)
     this.userForm.controls['username'].setValue(u.username)
-    this.userForm.controls['password'].setValue(u.password)
+    this.userForm.controls['password'].setValue("")
     this.userForm.controls['name'].setValue(u.name)
     this.userForm.controls['email'].setValue(u.email)
     this.userForm.controls['phone'].setValue(u.phone)
@@ -65,20 +63,17 @@ export class Admin implements OnInit {
   }
 
   resetUser() {
+    this.userForm.reset()
     this.userForm.controls['id'].setValue(0)
-    this.userForm.controls['username'].setValue("")
-    this.userForm.controls['password'].setValue("")
-    this.userForm.controls['name'].setValue("")
-    this.userForm.controls['email'].setValue("")
-    this.userForm.controls['phone'].setValue("")
     this.userForm.controls['role'].setValue("User")
   }
 
   saveNewUser() {
-    this.userService.addUser(this.globalService.toUserReq(this.formToUser())).subscribe({
-      next:()=>{
-        alert("user created")
+    this.userService.add(this.formToUserReq()).subscribe({
+      next:(result)=>{
+        alert("User created.")
         this.loadUsers()
+        this.resetUser()
       },
       error:(error)=>{
         alert("error: " + error.error)
@@ -87,9 +82,22 @@ export class Admin implements OnInit {
   }
 
   updateUser() {
-    this.userService.updateUser(this.formToUser(), this.userForm.value.id).subscribe({
-      next:()=>{
-        alert("user updated")
+    this.userService.update(this.formToUserReq(), this.userForm.value.id).subscribe({
+      next:(result)=>{
+        alert("User updated.")
+        this.loadUsers()
+        this.resetUser()
+      },
+      error:(error)=>{
+        alert("error: " + error.error)
+      }
+    })
+  }
+
+  deactivateUser(userId: number) {
+    this.userService.deactivate(userId).subscribe({
+      next:(result)=>{
+        alert("User deactivated.")
         this.loadUsers()
       },
       error:(error)=>{
@@ -98,10 +106,10 @@ export class Admin implements OnInit {
     })
   }
 
-  deleteUser(u:User) {
-    this.userService.deleteUser(u.id).subscribe({
-      next:()=>{
-        alert("user deleted")
+  activateUser(userId: number) {
+    this.userService.activate(userId).subscribe({
+      next:(result)=>{
+        alert("User activated.")
         this.loadUsers()
       },
       error:(error)=>{
