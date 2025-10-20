@@ -32,7 +32,7 @@ export class UserItems implements OnInit {
     name: new FormControl("", [Validators.required]),
     description: new FormControl("", [Validators.required]),
     price: new FormControl(0),
-    typeId: new FormControl(0),
+    typeId: new FormControl(null, [Validators.required]),
     sellerId: new FormControl(0)
   })
 

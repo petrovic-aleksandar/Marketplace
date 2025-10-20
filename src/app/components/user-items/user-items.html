@@ -38,9 +38,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="typeIdId">Price</label>
+                        <label for="typeIdId">Category</label>
                         <ng-select id="typeIdId" [items]="itemTypes" bindLabel="name" bindValue="id"
                             formControlName="typeId"> </ng-select>
+                        <div class="text-danger">
+                            @if(itemForm.controls['typeId'].errors?.['required']) {
+                            Category is required
+                            }
+                        </div>
                     </div>
                     @if( itemForm.value.id == 0) {
                     <button class="btn btn-primary" [disabled]="itemForm.invalid" (click)="add()">Save</button>
