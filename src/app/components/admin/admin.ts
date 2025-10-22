@@ -9,7 +9,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-admin',
-  imports: [ReactiveFormsModule,MonetaryPipe,NgSelectComponent],
+  imports: [ReactiveFormsModule, MonetaryPipe, NgSelectComponent],
   templateUrl: './admin.html',
   styleUrl: './admin.css'
 })
@@ -25,6 +25,7 @@ export class Admin implements OnInit {
   userForm: FormGroup = new FormGroup({
     id: new FormControl(0),
     username: new FormControl("", [Validators.required]),
+    updatePassword: new FormControl(true),
     password: new FormControl("", [Validators.required, Validators.minLength(6)]),
     name: new FormControl("", [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
@@ -38,14 +39,14 @@ export class Admin implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getAll().subscribe((result:any)=>{
+    this.userService.getAll().subscribe((result: any) => {
       this.userList = result
       this.cdr.markForCheck()
     })
   }
 
   loadRoles() {
-    this.userService.getRoles().subscribe((result:any)=>{
+    this.userService.getRoles().subscribe((result: any) => {
       this.userRoles = result
       this.cdr.markForCheck()
     })
@@ -54,6 +55,7 @@ export class Admin implements OnInit {
   formToUserReq(): UserReq {
     return {
       username: this.userForm.value.username,
+      updatePassword: this.userForm.value.updatePassword,
       password: this.userForm.value.password,
       name: this.userForm.value.name,
       email: this.userForm.value.email,
@@ -62,9 +64,19 @@ export class Admin implements OnInit {
     }
   }
 
-  editUser(u:User) {
+  disablePassword() {
+    if (this.userForm.value.updatePassword) {
+      this.userForm.controls['password'].enable()
+    } else {
+      this.userForm.controls['password'].disable()
+      this.userForm.controls['password'].reset()
+    }
+  }
+
+  editUser(u: User) {
     this.userForm.controls['id'].setValue(u.id)
     this.userForm.controls['username'].setValue(u.username)
+    this.userForm.controls['updatePassword'].setValue(true)
     this.userForm.controls['password'].setValue("")
     this.userForm.controls['name'].setValue(u.name)
     this.userForm.controls['email'].setValue(u.email)
@@ -79,12 +91,12 @@ export class Admin implements OnInit {
 
   saveNewUser() {
     this.userService.add(this.formToUserReq()).subscribe({
-      next:(result)=>{
+      next: (result) => {
         alert("User created.")
         this.loadUsers()
         this.resetUser()
       },
-      error:(error)=>{
+      error: (error) => {
         alert("error: " + error.error)
       }
     });
@@ -92,12 +104,12 @@ export class Admin implements OnInit {
 
   updateUser() {
     this.userService.update(this.formToUserReq(), this.userForm.value.id).subscribe({
-      next:(result)=>{
+      next: (result) => {
         alert("User updated.")
         this.loadUsers()
         this.resetUser()
       },
-      error:(error)=>{
+      error: (error) => {
         alert("error: " + error.error)
       }
     })
@@ -105,11 +117,11 @@ export class Admin implements OnInit {
 
   deactivateUser(userId: number) {
     this.userService.deactivate(userId).subscribe({
-      next:(result)=>{
+      next: (result) => {
         alert("User deactivated.")
         this.loadUsers()
       },
-      error:(error)=>{
+      error: (error) => {
         alert("error: " + error.error)
       }
     })
@@ -117,11 +129,11 @@ export class Admin implements OnInit {
 
   activateUser(userId: number) {
     this.userService.activate(userId).subscribe({
-      next:(result)=>{
+      next: (result) => {
         alert("User activated.")
         this.loadUsers()
       },
-      error:(error)=>{
+      error: (error) => {
         alert("error: " + error.error)
       }
     })
